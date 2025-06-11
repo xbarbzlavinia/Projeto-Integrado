@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Usuário</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="./img/logoF.png" alt="Logo Fortes">
+
+        
+
+    </header>
+    <div class="form-box">
+        <a class="voltar" href="./login.html"><img src="./img/setinha.png" alt="sta para voltar"></a>
+
+        <h3 class="tlogin">Redefina sua senha</h3>
+        <form>
+            <label class="newSenha" for="email">Nova senha:</label>
+            <input type="password" id="senha" name="senha">
+
+            <label class="repeteSenha" for="senha">Repita a nova senha:</label>
+            <input class="inputSenha" type="password" id="senha" name="senha">
+            <button type="submit" class="login_submit-btn" >Redefinir</button>
+            
+        </form>
+    </div>
+
+    <!-- Botão para abrir o modal de sucesso -->
+    <label for="modal-conta-sucesso-toggle" class="btn-abrir-modal-sucesso">Redefinir</label>
+
+    <!-- Checkbox escondido para controlar o modal -->
+    <input type="checkbox" id="modal-conta-sucesso-toggle" class="checkbox-modal-sucesso">
+
+    <!-- Modal de sucesso -->
+    <div class="modal-conta-sucesso">
+        <div class="modal-conta-sucesso-conteudo">
+            <!-- Botão de fechar -->
+            <label for="modal-conta-sucesso-toggle" class="fechar-modal-sucesso">&times;</label>
+            <div class="icone-sucesso-fundo"></div>
+            <h2 class="textsucess" >Senha redefinida com<br><strong>sucesso!</strong></h2>
+        </div>
+    </div>
+
+</body>
+
+</html>
