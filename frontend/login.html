@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Fortes</title> <!-- Título atualizado para ser mais específico -->
+    
+    <!-- Seu CSS personalizado (certifique-se de que o arquivo existe em ./css/style.css) -->
+    <link rel="stylesheet" href="./css/style.css">
+    
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="./img/logoF.png" alt="Logo Fortes">
+    </header>
+
+    <div class="form-box">
+        <a class="voltar" href="./index.html"><img src="./img/setinha.png" alt="Seta para voltar"></a>
+
+        <h3 class="tlogin">Entre na sua conta</h3>
+        <img class="icone_usuario" src="./img/iconusuario.png" alt="Ícone de usuário">
+        
+        <form id="loginForm"> <!-- Adicionado ID ao formulário, embora o JS já anexe ao botão -->
+            <label class="inpEmail" for="email">E-mail</label>
+            <input type="email" id="email" name="email" class="input-field"> <!-- Adicionado id="email" e uma classe generalista de input -->
+
+            <label class="inpSenha" for="password">Senha</label>
+            <input class="inputSenha input-field" type="password" id="password" name="password"> <!-- Adicionado id="password" e classe generalista de input -->
+            
+            <label for="modal-toggle" class="btn-abrir-modal"><a class="esqueci">Esqueci minha senha</a></label>
+
+            <button id="loginButton" class="botao-condicional login_submit-btn">Entrar</button>
+
+            <!-- Elemento para exibir mensagens de erro -->
+            <p id="errorMessage" class="text-red-600 text-sm mt-4 text-center hidden font-medium"></p>
+
+            <a class="offcadastro" href="./cadastro.html">Não tem cadastro? <br> Registre aqui!</a>
+        </form>
+    </div>
+
+    <!-- Modal Esqueceu a Senha -->
+    <input type="checkbox" id="modal-toggle" style="display: none;">
+    <div class="modal">
+        <div class="modal-conteudo">
+            <label for="modal-toggle" class="fechar">&times;</label>
+            <h2>Esqueceu sua senha?<br><strong>Sem problemas!</strong></h2>
+            <p>Digite seu e-mail abaixo e enviaremos um link<br>para você redefinir sua senha:</p>
+            <input type="email" placeholder="seuemail@exemplo.com" class="input-field" />
+            <button class="modal-button">Enviar</button>
+        </div>
+    </div>
+
+    <!-- BOTÃO que você já tem (Acionador para o modal condicional, se usado) -->
+    <!-- Checkbox invisível -->
+    <input type="checkbox" id="modal-condicional-toggle" class="checkbox-modal-condicional">
+    <!-- Label que aciona o checkbox via CSS -->
+    <label for="modal-condicional-toggle" class="disparador-modal-condicional"></label>
+
+    <!-- MODAL Condicional (Ex: para seleção de tipo de usuário, se não vier do login) -->
+    <div class="modal-condicional">
+        <div class="modal-condicional-conteudo">
+            <label for="modal-condicional-toggle" class="fechar-modal-condicional">&times;</label>
+            <h2>Qual tipo de usuário<br>você deseja visualizar?</h2>
+            <div class="botoes-opcoes-condicional">
+                <button class="btn-opcao">Produtor<br>de lixo</button>
+                <button class="btn-opcao">Reciclador<br>de lixo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="./script/login.js"></script> -->
+
+</body>
+</html>

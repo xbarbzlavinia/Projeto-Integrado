@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Produtor</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-button {
+            transition: all 0.2s ease-in-out;
+            position: relative;
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #2563eb;
+            /* blue-600 */
+            color: #2563eb;
+        }
+
+        /* Estilos para o Modal de Comentários */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            /* Limita a altura para ser responsivo */
+            overflow-y: auto;
+            /* Adiciona scroll se o conteúdo for muito grande */
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a5568;
+            /* gray-700 */
+        }
+
+        /* Estilos para o Account Hub */
+        .account-hub-dropdown {
+            position: absolute;
+            top: 100%;
+            /* Abaixo do avatar/botão */
+            right: 0;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            width: 250px;
+            z-index: 999;
+            transform-origin: top right;
+            animation: fadeInScale 0.2s ease-out;
+        }
+
+        .account-hub-dropdown.hidden {
+            display: none;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        header {
+            background-color: #038C7F;
+
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header
+        class="navbar_produtor bg-gradient-to-r from-green-500 to-green-700 shadow p-4 flex flex-col sm:flex-row justify-between items-center relative z-10">
+        <div class="flex items-center justify-between w-full sm:w-auto mb-4 sm:mb-0">
+            <!-- Link para abrir o modal de ajuda -->
+            <a href="#modal-ajuda" class="btn-ajuda"><img src="./img/Help.png" alt=""></a>
+            <nav class="navbar_dashboardP flex space-x-4">
+                <a id="dashboardTab"
+                    class="tab-button py-2 px-4 text-white font-medium focus:outline-none active rounded-lg hover:bg-green-600 transition duration-200"
+                    href="#dashboardSection"><img src="./img/barrinhaDash.png" alt=""></a>
+
+                <a id="enviarLixoTab"
+                    class="tab-button py-2 px-4 text-white font-medium focus:outline-none rounded-lg hover:bg-green-600 transition duration-200"
+                    href="#enviarLixoSection"><img src="./img/Trash.png" alt=""></a>
+
+                <a id="statusTab"
+                    class="tab-button py-2 px-4 text-white font-medium focus:outline-none rounded-lg hover:bg-green-600 transition duration-200"
+                    href="#statusSection"><img src="./img/painelzinho.png" alt=""></a>
+            </nav>
+        </div>
+
+
+
+        <!-- Modal de Ajuda -->
+        <div id="modal-ajuda">
+            <div class="modal-ajuda-conteudo">
+                <a href="#" class="fechar-ajuda">&times;</a>
+                <h1>AJUDA</h1>
+                <h2>Como Usar o Site</h2>
+                <p>Aqui você encontra orientações sobre as funcionalidades da nossa plataforma.</p>
+
+                <h3>Para Quem Gera Resíduos:</h3>
+                <ul>
+                    <li><strong>Encontrar Pontos de Coleta:</strong> Use o mapa interativo para localizar...</li>
+                    <li><strong>Agendar Descarte:</strong> Siga os passos indicados para agendar...</li>
+                    <li><strong>Consultar Materiais Aceitos:</strong> Verifique a lista de materiais...</li>
+                    <li><strong>Histórico de Descartes:</strong> Acesse e visualize seu histórico...</li>
+                    <li><strong>Relatórios de Impacto:</strong> Gere relatórios simplificados...</li>
+                </ul>
+
+                <h3>Para Recicladores e Cooperativas:</h3>
+                <ul>
+                    <li><strong>Explorar Materiais Disponíveis:</strong> Explore os pontos de coleta...</li>
+                    <li><strong>Solicitar Coleta:</strong> Solicite a retirada diretamente pela plataforma...</li>
+                    <li><strong>Verificar Especificações:</strong> Consulte detalhes técnicos...</li>
+                    <li><strong>Otimizar Rotas:</strong> Planeje e otimize rotas de coleta...</li>
+                    <li><strong>Gerenciar Solicitações:</strong> Acompanhe o status de suas solicitações...</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <!-- Account Hub -->
+        <div class="relative ml-auto">
+            <div class="flex items-center cursor-pointer" id="accountHubToggle">
+                <span class="text-white font-medium mr-2 hidden sm:block" id="userNameDisplayProdutorHeader"></span>
+                <img src="./img/iconProdutor.png" alt="Avatar do Usuário"
+                    class="w-10 h-10 rounded-full border-2 border-white shadow-lg">
+            </div>
+
+            <div id="accountHubDropdown" class="account-hub-dropdown hidden">
+                <div class="flex items-center mb-4">
+                    <img src="./img/iconProdutor.png" alt="Avatar Grande"
+                        class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-gray-200">
+                </div>
+                <p class="text-center font-bold text-gray-800" id="userNameDisplayProdutorDropdown">Olá, Jorge Silva!
+                </p>
+                <p class="text-center text-sm text-gray-600 mb-4" id="userEmailDisplayProdutorDropdown">
+                    admin@fortes.com.br</p>
+                <p class="text-center text-xs text-gray-500 mb-4" id="userTypeDisplayProdutorDropdown">Produtor</p>
+
+                <button id="logoutButtonProdutor"
+                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-full transition duration-300 flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 flex-grow">
+    <!-- Seção Dashboard do Produtor -->
+    <div id="dashboardSection" class="tab-content bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Informações sobre seu progresso:</h2>
+        <div class="progresso grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="semana bg-blue-100 p-4 rounded-lg text-center shadow flex flex-col items-center justify-center">
+                <h3 class="font-semibold text-blue-800 mb-2">Você depositou <span id="lixoSemanaCount"
+                        class="text-4xl font-bold text-blue-700">0</span> lixo(s) essa semana!</h3>
+                <!-- Adicionar ícone ou visualização aqui se desejar, como no wireframe -->
+            </div>
+            <div class="total bg-blue-100 p-4 rounded-lg text-center shadow flex flex-col items-center justify-center">
+                <h3 class="font-semibold text-blue-800 mb-2">Você depositou <span id="lixoTotalCount"
+                        class="text-4xl font-bold text-blue-700">0</span> lixo(s) no total!</h3>
+                <img src="./img/recycling-bin.png" alt="Ícone de Lixeira" class="w-16 h-16 mt-2">
+                <!-- Ícone de exemplo -->
+                <p class="text-blue-600 text-lg font-medium mt-2">Continue assim!</p>
+            </div>
+            <div class="mes bg-blue-100 p-4 rounded-lg text-center shadow flex flex-col items-center justify-center">
+                <h3 class="font-semibold text-blue-800 mb-2">Você depositou <span id="lixoMesCount"
+                        class="text-4xl font-bold text-blue-700">0</span> lixo(s) esse mês!</h3>
+                <!-- Gráfico ou visualização aqui se desejar, como no wireframe -->
+            </div>
+        </div>
+
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Últimos Lixos Postados:</h3>
+        <div id="collectedLixosDashboardList" class="overflow-x-auto">
+            <table border="1" class="tab_lixopostado min-w-full bg-white rounded-lg shadow-md">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">Nome</th>
+                        <th class="py-3 px-6 text-left">Tipo</th>
+                        <th class="py-3 px-6 text-left">Data da Coleta</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light" id="collectedLixosDashboardTableBody">
+                    <!-- Lixos coletados serão carregados aqui -->
+                </tbody>
+            </table>
+        </div>
+        <p id="dashboardMessage" class="mt-4 text-center text-gray-500 text-sm"></p>
+    </div>
+
+    <!-- Seção Enviar Lixo (antigo Adicionar Lixo) -->
+    <div id="enviarLixoSection" class="tab-content bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Postar Novo Lixo para Coleta</h2>
+        <form id="addLixoForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="selecoes">
+
+            <div class="name_lixo">
+                <label for="nomeLixo" class="block text-gray-700 text-sm font-semibold mb-2">Nome do Lixo:</label>
+                <input type="text" id="nomeLixo"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+            </div>
+
+            
+            <div class="tipo_lixo">
+                <label for="tipoLixo" class="block text-gray-700 text-sm font-semibold mb-2">Tipo de Lixo:</label>
+                <select id="tipoLixo"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+                    <option value="">Selecione o Tipo</option>
+                    <option value="Plastico">Plástico</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Vidro">Vidro</option>
+                    <option value="Papel">Papel</option>
+                    <option value="Organico">Orgânico</option>
+                    <option value="Eletronico">Eletrônico</option>
+                    <option value="Bateria">Bateria</option>
+                    <option value="Borracha">Borracha</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            <div class="pontoC md:col-span-2">
+                <label for="pontoColeta" class="block text-gray-700 text-sm font-semibold mb-2">Ponto de Coleta
+                    :</label>
+                <select id="pontoColeta"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+                    <option value="">Selecione o Tipo de Lixo primeiro</option>
+                </select>
+            </div>
+            </div>
+            
+            <div class="imageEnviar">
+                <img class="latas" src="./img/imageEnviarLixo.jpg" alt="">
+            </div>
+
+            <div class="btn_enviar md:col-span-2 text-right">
+                <button type="submit"
+                    class=" bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Postar
+                    Lixo</button>
+            </div>
+        </form>
+        <p id="enviarLixoMessage" class="mt-4 text-center text-sm font-medium"></p>
+
+
+    </div>
+
+    <!-- Seção Status (antigo Meus Lixos Postados) -->
+    <div id="statusSection" class="tab-content bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Status dos lixos postados</h2>
+
+        <!-- Controles de Filtro -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="botoesPesquisa">
+                <label for="statusTipoLixoFilter" class="block text-gray-700 text-sm font-semibold mb-2">Filtrar por
+                    Tipo de Lixo:</label>
+
+                    
+                <select id="statusTipoLixoFilter"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Todos os Tipos</option>
+                    <option value="Plastico">Plástico</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Vidro">Vidro</option>
+                    <option value="Papel">Papel</option>
+                    <option value="Organico">Orgânico</option>
+                    <option value="Eletronico">Eletrônico</option>
+                    <option value="Bateria">Bateria</option>
+                    <option value="Borracha">Borracha</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            <div>
+                <label for="statusPontoColetaNameFilter" class="block text-gray-700 text-sm font-semibold mb-2">Filtrar
+                    por Nome do Ponto de
+                    Coleta:</label>
+                <input type="text" id="statusPontoColetaNameFilter"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ex: Ecoponto Central">
+            </div>
+        </div>
+
+        <div id="myLixosList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Cards de lixo serão carregados aqui -->
+        </div>
+        <p id="statusMessage" class="mt-4 text-center text-gray-500 text-sm"></p>
+    </div>
+    </div>
+
+    <!-- Modal de Comentários -->
+    <!-- <div id="commentsModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="modal-close" id="closeCommentsModal">&times;</span>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Comentários do Lixo: <span id="lixoNameForComments"></span></h2>
+            <div id="commentsList" class="mb-4 max-h-64 overflow-y-auto border border-gray-200 p-3 rounded-lg bg-gray-50">
+                <!-- Comentários serão carregados aqui -->
+    <!-- </div>
+            <form id="addCommentForm" class="flex flex-col gap-2">
+                <textarea id="newCommentText" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Adicione um comentário..."></textarea>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Adicionar Comentário</button>
+                <p id="commentMessage" class="mt-2 text-sm text-center font-medium"></p>
+            </form>
+        </div>
+    </div> --> 
+    <!-- <script src="./script/produtor.js"></script> -->
+</body>
+
+</html>
+
+</html>

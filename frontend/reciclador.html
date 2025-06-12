@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Reciclador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-button {
+            transition: all 0.2s ease-in-out;
+            position: relative;
+        }
+        .tab-button.active {
+            border-bottom: 3px solid #f59e0b; /* yellow-500 */
+            color: #f59e0b;
+        }
+        /* Estilos para o Modal de Comentários */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a5568;
+        }
+        /* Estilos para o Account Hub */
+        .account-hub-dropdown {
+            position: absolute;
+            top: 100%; /* Abaixo do avatar/botão */
+            right: 0;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            width: 250px;
+            z-index: 999;
+            transform-origin: top right;
+            animation: fadeInScale 0.2s ease-out;
+        }
+        .account-hub-dropdown.hidden {
+            display: none;
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header class="bg-gradient-to-r from-green-500 to-green-700 shadow p-4 flex flex-col sm:flex-row justify-between items-center relative z-10">
+        <div class="flex items-center justify-between w-full sm:w-auto mb-4 sm:mb-0">
+            <h1 class="text-2xl font-bold text-white mr-4">Fortes Coleta</h1>
+            <nav class="flex space-x-4">
+                <button id="dashboardTab" class="tab-button py-2 px-4 text-white font-medium focus:outline-none active rounded-lg hover:bg-green-600 transition duration-200">Dashboard</button>
+                <button id="enviarLixoTab" class="tab-button py-2 px-4 text-white font-medium focus:outline-none rounded-lg hover:bg-green-600 transition duration-200">Lixos Disponíveis</button>
+                <button id="statusTab" class="tab-button py-2 px-4 text-white font-medium focus:outline-none rounded-lg hover:bg-green-600 transition duration-200">Status</button>
+            </nav>
+        </div>
+
+        <!-- Account Hub -->
+        <div class="relative ml-auto">
+            <div class="flex items-center cursor-pointer" id="accountHubToggle">
+                <span class="text-white font-medium mr-2 hidden sm:block" id="userNameDisplayRecicladorHeader"></span>
+                <img src="https://placehold.co/40x40/C0C0C0/FFFFFF?text=👤" alt="Avatar do Usuário" class="w-10 h-10 rounded-full border-2 border-white shadow-lg">
+            </div>
+
+            <div id="accountHubDropdown" class="account-hub-dropdown hidden">
+                <div class="flex items-center mb-4">
+                    <img src="https://placehold.co/60x60/C0C0C0/FFFFFF?text=👤" alt="Avatar Grande" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-gray-200">
+                </div>
+                <p class="text-center font-bold text-gray-800" id="userNameDisplayRecicladorDropdown">Olá, Jorgina Oliveira!</p>
+                <p class="text-center text-sm text-gray-600 mb-4" id="userEmailDisplayRecicladorDropdown">cooperativas@fortes.com.br</p>
+                <p class="text-center text-xs text-gray-500 mb-4" id="userTypeDisplayRecicladorDropdown">Reciclador</p>
+                
+                <button id="logoutButtonReciclador" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-full transition duration-300 flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 flex-grow">
+        <!-- Seção Dashboard do Reciclador -->
+        <div id="dashboardSection" class="tab-content bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Informações sobre seu progresso:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-yellow-100 p-4 rounded-lg text-center shadow flex flex-col items-center justify-center">
+                    <h3 class="font-semibold text-yellow-800 mb-2">Lixo Coletado Esta Semana:</h3>
+                    <p id="coletadoSemanaCount" class="text-4xl font-bold text-yellow-700">0</p>
+                </div>
+                <div class="bg-yellow-100 p-4 rounded-lg text-center shadow flex flex-col items-center justify-center">
+                    <h3 class="font-semibold text-yellow-800 mb-2">Lixo Coletado Este Mês:</h3>
+                    <p id="coletadoMesCount" class="text-4xl font-bold text-yellow-700">0</p>
+                </div>
+                <div class="bg-yellow-100 p-4 rounded-lg text-center shadow flex flex-col items-center justify-center">
+                    <h3 class="font-semibold text-yellow-800 mb-2">Lixo Total Coletado:</h3>
+                    <p id="totalColetadoCount" class="text-4xl font-bold text-yellow-700">0</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">Lixos Reciclador à Caminho:</h3>
+            <div id="aCaminhoDashboardList" class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-lg shadow-md">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left">Nome</th>
+                            <th class="py-3 px-6 text-left">Tipo</th>
+                            <th class="py-3 px-6 text-left">Postado em</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 text-sm font-light" id="aCaminhoDashboardTableBody">
+                        <!-- Lixos a caminho serão carregados aqui -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="dashboardMessage" class="mt-4 text-center text-gray-500 text-sm"></p>
+        </div>
+
+        <!-- Seção Lixos Disponíveis -->
+        <div id="enviarLixoSection" class="tab-content bg-white p-6 rounded-lg shadow-md hidden">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Lixos Disponíveis para Coleta</h2>
+            
+            <!-- Controles de Filtro -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="availableTipoLixoFilter" class="block text-gray-700 text-sm font-semibold mb-2">Filtrar por Tipo de Lixo:</label>
+                    <select id="availableTipoLixoFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Todos os Tipos</option>
+                        <option value="Plastico">Plástico</option>
+                        <option value="Metal">Metal</option>
+                        <option value="Vidro">Vidro</option>
+                        <option value="Papel">Papel</option>
+                        <option value="Organico">Orgânico</option>
+                        <option value="Eletronico">Eletrônico</option>
+                        <option value="Bateria">Bateria</option>
+                        <option value="Borracha">Borracha</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="availablePontoColetaNameFilter" class="block text-gray-700 text-sm font-semibold mb-2">Filtrar por Nome do Ponto de Coleta:</label>
+                    <input type="text" id="availablePontoColetaNameFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Ecoponto Central">
+                </div>
+            </div>
+
+            <div id="availableLixosList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Cards de lixo disponível serão carregados aqui -->
+            </div>
+            <p id="enviarLixoMessage" class="mt-4 text-center text-gray-500 text-sm"></p>
+        </div>
+
+        <!-- Seção Status -->
+        <div id="statusSection" class="tab-content bg-white p-6 rounded-lg shadow-md hidden">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Status das Minhas Coletas</h2>
+            
+            <!-- Controles de Filtro -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="myCollectionsTipoLixoFilter" class="block text-gray-700 text-sm font-semibold mb-2">Filtrar por Tipo de Lixo:</label>
+                    <select id="myCollectionsTipoLixoFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Todos os Tipos</option>
+                        <option value="Plastico">Plástico</option>
+                        <option value="Metal">Metal</option>
+                        <option value="Vidro">Vidro</option>
+                        <option value="Papel">Papel</option>
+                        <option value="Organico">Orgânico</option>
+                        <option value="Eletronico">Eletrônico</option>
+                        <option value="Bateria">Bateria</option>
+                        <option value="Borracha">Borracha</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="myCollectionsPontoColetaNameFilter" class="block text-gray-700 text-sm font-semibold mb-2">Filtrar por Nome do Ponto de Coleta:</label>
+                    <input type="text" id="myCollectionsPontoColetaNameFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ex: Ecoponto Central">
+                </div>
+            </div>
+
+            <div id="myCollectionsList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Cards das coletas do reciclador serão carregados aqui -->
+            </div>
+            <p id="statusMessage" class="mt-4 text-center text-gray-500 text-sm"></p>
+        </div>
+    </div>
+
+    <!-- Modal de Comentários -->
+    <div id="commentsModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="modal-close" id="closeCommentsModal">&times;</span>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Comentários do Lixo: <span id="lixoNameForComments"></span></h2>
+            <div id="commentsList" class="mb-4 max-h-64 overflow-y-auto border border-gray-200 p-3 rounded-lg bg-gray-50">
+                <!-- Comentários serão carregados aqui -->
+            </div>
+            <form id="addCommentForm" class="flex flex-col gap-2">
+                <textarea id="newCommentText" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Adicione um comentário..."></textarea>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Adicionar Comentário</button>
+                <p id="commentMessage" class="mt-2 text-sm text-center font-medium"></p>
+            </form>
+        </div>
+    </div>
+    <!-- <script src="./script/reciclador.js"></script> -->
+</body>
+</html>
