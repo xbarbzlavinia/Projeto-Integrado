@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Usuário</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="./img/logoF.png" alt="Logo Fortes">
+
+        <div class="titulo">Crie sua Conta</div>
+
+    </header>
+    <div class="form-box">
+        <a class="voltar" href="./index.html"><img src="./img/setinha.png" alt="sta para voltar"></a>
+
+        <form>
+            <label for="nome">Digite seu nome: </label>
+            <input type="text" id="nome" name="nome">
+
+            <label for="email">Digite seu email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="senha">Crie sua senha:</label>
+            <input type="password" id="senha" name="senha">
+
+            <p class="radiozinho">Selecione o seu tipo de serviço:</p>
+            <div class="radios">
+                <label class="opcao produtor">
+                    <span class="radio-title">Produtor</span>
+                    <div class="icon produtor-icon"></div>
+                    <input type="radio" name="servico" value="produtor">
+                </label>
+                <label class="opcao reciclador">
+                    <span class="radio-title">Reciclador</span>
+                    <div class="icon reciclador-icon"></div>
+                    <input type="radio" name="servico" value="reciclador">
+
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn" disabled>Cadastrar</button>
+        </form>
+    </div>
+
+    <!-- Botão para abrir o modal de sucesso -->
+    <label for="modal-conta-sucesso-toggle" class="btn-abrir-modal-sucesso">Criar Conta</label>
+
+    <!-- Checkbox escondido para controlar o modal -->
+    <input type="checkbox" id="modal-conta-sucesso-toggle" class="checkbox-modal-sucesso">
+
+    <!-- Modal de sucesso -->
+    <div class="modal-conta-sucesso">
+        <div class="modal-conta-sucesso-conteudo">
+            <!-- Botão de fechar -->
+            <label for="modal-conta-sucesso-toggle" class="fechar-modal-sucesso">&times;</label>
+            <div class="icone-sucesso-fundo"></div>
+            <h2 class="textsucess" >Conta criada com<br><strong>sucesso!</strong></h2>
+        </div>
+    </div>
+
+</body>
+
+</html>
