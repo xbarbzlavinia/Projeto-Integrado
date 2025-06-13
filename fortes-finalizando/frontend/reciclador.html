@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Reciclador</title>
+    <link rel="stylesheet" href="./css/reciclador.css">
+</head>
+
+<body class="page-container">
+    <header class="main-header">
+        <div class="main-header-content">
+            <!-- Link para abrir o modal de ajuda -->
+            <a href="#modal-ajuda" class="btn-ajuda"><img src="./img/Help.png" alt="Ajuda"></a>
+            <nav class="main-nav">
+                <a id="dashboardTab" class="tab-button active" href="#dashboardSection"><img src="./img/barrinhaDash.png" alt="Dashboard"><span>Dashboard</span></a>
+                <a id="availableLixosTab" class="tab-button" href="#availableLixosSection"><img src="./img/Trash.png" alt="Coletar Lixo"><span>Coletar Lixo</span></a>
+                <a id="myCollectionsTab" class="tab-button" href="#myCollectionsSection"><img src="./img/painelzinho.png" alt="Status"><span>Status</span></a>
+            </nav>
+        </div>
+
+        <!-- Modal de Ajuda -->
+        <div id="modal-ajuda" class="modal-overlay">
+            <div class="modal-ajuda-conteudo">
+                <a href="#" class="fechar-ajuda">&times;</a>
+                <h1>AJUDA</h1>
+                <h2>Como Usar o Site</h2>
+                <p>Aqui você encontra orientações sobre as funcionalidades da nossa plataforma.</p>
+
+                <h3>Para Quem Gera Resíduos:</h3>
+                <ul>
+                    <li><strong>Encontrar Pontos de Coleta:</strong> Use o mapa interativo para localizar os pontos de coleta mais próximos de você.</li>
+                    <li><strong>Agendar Descarte:</strong> Siga os passos indicados para agendar a coleta dos seus resíduos.</li>
+                    <li><strong>Consultar Materiais Aceitos:</strong> Verifique a lista de materiais recicláveis aceitos nos pontos de coleta.</li>
+                    <li><strong>Histórico de Descartes:</strong> Acesse e visualize seu histórico de lixos postados e coletados.</li>
+                    <li><strong>Relatórios de Impacto:</strong> Gere relatórios simplificados sobre o impacto positivo da sua reciclagem.</li>
+                </ul>
+
+                <h3>Para Recicladores e Cooperativas:</h3>
+                <ul>
+                    <li><strong>Explorar Materiais Disponíveis:</strong> Explore os pontos de coleta e os tipos de materiais disponíveis para retirada.</li>
+                    <li><strong>Solicitar Coleta:</strong> Solicite a retirada diretamente pela plataforma, indicando os resíduos que deseja coletar.</li>
+                    <li><strong>Verificar Especificações:</strong> Consulte detalhes técnicos e informações sobre os materiais disponíveis.</li>
+                    <li><strong>Otimizar Rotas:</strong> Planeje e otimize rotas de coleta para maximizar sua eficiência.</li>
+                    <li><strong>Gerenciar Solicitações:</strong> Acompanhe o status de suas solicitações de coleta, desde a pendência até a conclusão.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Account Hub -->
+        <div class="account-hub">
+            <div class="account-toggle" id="accountHubToggle">
+                <span class="user-name-header" id="userNameDisplayRecicladorHeader"></span>
+                <img src="./img/iconReciclador.png" alt="Avatar do Usuário" class="user-avatar">
+            </div>
+
+            <div id="accountHubDropdown" class="account-hub-dropdown hidden">
+                <div class="dropdown-header">
+                    <img src="./img/iconReciclador.png" alt="Avatar Grande" class="dropdown-avatar">
+                </div>
+                <p class="dropdown-username" id="userNameDisplayRecicladorDropdown"></p>
+                <p class="dropdown-email" id="userEmailDisplayRecicladorDropdown"></p>
+                <p class="dropdown-usertype" id="userTypeDisplayRecicladorDropdown"></p>
+                
+                <button id="logoutButtonReciclador" class="logout-button">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <!-- Seção Dashboard do Reciclador -->
+        <div id="dashboardSection" class="tab-content">
+            <h2 class="section-title">Informações sobre seu progresso:</h2>
+            <div class="progresso stats-grid">
+                <div class="semana stat-item">
+                    <h3>Você coletou <span id="coletadoSemanaCount">0</span> lixo(s) essa semana!</h3>
+                    <div class="chart-container">
+                        <canvas id="coletadoSemanaChart"></canvas>
+                        <p class="chart-placeholder hidden">Gráfico de lixo coletado semanal</p>
+                    </div>
+                </div>
+                <div class="total stat-item">
+                    <h3>Você coletou <span id="totalColetadoCount">0</span> lixo(s) no total!</h3>
+                    <img src="./img/depositando.png" alt="Ícone de Lixeira" class="icon-lixeira">
+                    <p class="status-message">Continue assim!</p>
+                </div>
+                <div class="mes stat-item">
+                    <h3>Você coletou <span id="coletadoMesCount">0</span> lixo(s) esse mês!</h3>
+                    <div class="chart-container">
+                        <canvas id="coletadoMesChart"></canvas>
+                        <p class="chart-placeholder hidden">Gráfico de lixo coletado mensal</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="section-title">Últimos Lixos Coletados:</h3>
+            <div id="collectedRecicladorLixosDashboardList" class="collected-reciclador-lixos-grid">
+                <!-- Lixos coletados serão carregados aqui em formato de cards -->
+            </div>
+            <p id="dashboardMessage" class="message-text"></p>
+        </div>
+
+        <!-- Seção Lixos Disponíveis para Coleta (antigo Enviar Lixo) -->
+        <div id="availableLixosSection" class="tab-content hidden">
+            <h2 class="section-title">Lixos disponíveis para a coleta:</h2>
+
+            <!-- Controles de Filtro -->
+            <div class="filter-controls">
+                <div class="botoesPesquisa">
+                    
+                    <label for="availableTipoLixoFilter" class="input-label">Filtrar por Tipo de Lixo:</label>
+                    <select id="availableTipoLixoFilter" class="input-field">
+                        <option value="">Todos os Tipos</option>
+                        <option value="Plástico">Plástico</option>
+                        <option value="Metal">Metal</option>
+                        <option value="Vidro">Vidro</option>
+                        <option value="Papel">Papel</option>
+                        <option value="Orgânico">Orgânico</option>
+                        <option value="Eletrônico">Eletrônico</option>
+                        <option value="Bateria">Bateria</option>
+                        <option value="Borracha">Borracha</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="pc">
+                    <label for="availablePontoColetaNameFilter" class="input-label">Filtrar por Nome do Ponto de Coleta:</label>
+                    <input type="text" id="availablePontoColetaNameFilter" class="input-field" placeholder="Ex: Ecoponto Central">
+                </div>
+            </div>
+
+            <div id="availableLixosList" class="available-lixos-grid">
+                <!-- Cards de lixo disponível serão carregados aqui -->
+            </div>
+            <p id="availableLixosMessage" class="message-text"></p>
+        </div>
+
+        <!-- Seção Minhas Coletas (antigo Status) -->
+        <div id="myCollectionsSection" class="tab-content hidden">
+            <h2 class="section-title">Lixos sendo coletados:</h2>
+
+            <!-- Controles de Filtro -->
+            <div class="filter-controls">
+                <div class="botoesPesquisa">
+                    <label for="myCollectionsTipoLixoFilter" class="input-label">Filtrar por Tipo de Lixo:</label>
+                    <select id="myCollectionsTipoLixoFilter" class="input-field">
+                        <option value="">Todos os Tipos</option>
+                        <option value="Plástico">Plástico</option>
+                        <option value="Metal">Metal</option>
+                        <option value="Vidro">Vidro</option>
+                        <option value="Papel">Papel</option>
+                        <option value="Orgânico">Orgânico</option>
+                        <option value="Eletrônico">Eletrônico</option>
+                        <option value="Bateria">Bateria</option>
+                        <option value="Borracha">Borracha</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="pc">
+                    <label for="myCollectionsPontoColetaNameFilter" class="input-label">Filtrar por Nome do Ponto de Coleta:</label>
+                    <input type="text" id="myCollectionsPontoColetaNameFilter" class="input-field" placeholder="Ex: Ecoponto Central">
+                </div>
+            </div>
+
+            <div id="myCollectionsList" class="my-collections-grid">
+                <!-- Cards de lixo em minhas coletas serão carregados aqui -->
+            </div>
+            <p id="myCollectionsMessage" class="message-text"></p>
+        </div>
+    </div>
+
+    <!-- Modal de Comentários -->
+    <div id="commentsModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="modal-close" id="closeCommentsModal">&times;</span>
+            <h2 class="section-title">Comentários do Lixo: <span id="lixoNameForComments"></span></h2>
+            <div id="commentsList" class="comments-list">
+                <!-- Comentários serão carregados aqui -->
+            </div>
+            <form id="addCommentForm" class="comment-form">
+                <textarea id="newCommentText" class="comment-textarea" rows="3" placeholder="Adicione um comentário..."></textarea>
+                <button type="submit" class="comment-submit-button">Adicionar Comentário</button>
+                <p id="commentMessage" class="message-text"></p>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--Bibilioteca de gráficos interativos que eu achei-->
+    <script src="./script/reciclador.js"></script>
+    <script>
+  const container = document.getElementById('imageContainer');
+  const triggerImage = document.getElementById('triggerImage');
+
+  // Mostra/esconde os selects ao clicar na imagem
+  triggerImage.addEventListener('click', () => {
+    container.classList.toggle('active');
+  });
+
+  // Fecha os selects ao clicar fora
+  document.addEventListener('click', (event) => {
+    if (!container.contains(event.target)) {
+      container.classList.remove('active');
+    }
+  });
+</script>
+</body>
+</html>

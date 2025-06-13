@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Fortes</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="./img/logoF.png" alt="Logo Fortes">
+    </header>
+
+    <div class="form-box">
+        <a class="voltar" href="./index.html"><img src="./img/setinha.png" alt="Seta para voltar"></a>
+
+        <h3 class="tlogin">Entre na sua conta</h3>
+        <img class="icone_usuario" src="./img/iconusuario.png" alt="Ícone de usuário">
+        
+        <form id="loginForm"> 
+            <label class="inpEmail" for="email">E-mail</label>
+            <input type="email" id="email" name="email" class="input-field"> 
+
+            <label class="inpSenha" for="password">Senha</label>
+            <input class="inputSenha input-field" type="password" id="password" name="password"> 
+            
+            <!-- A label com for="modal-toggle" já aciona o modal via CSS -->
+            <label for="modal-toggle" class="esqueci">Esqueci minha senha</label>
+
+            <button id="loginButton" class="login_submit-btn" type="submit">Entrar</button>
+
+            <!-- Elemento para exibir mensagens de erro -->
+            <p id="errorMessage" class="text-red-600 text-sm mt-4 text-center hidden font-medium"></p>
+
+            <a class="offcadastro" href="./cadastro.html">Não tem cadastro? <br> Registre aqui!</a>
+        </form>
+    </div>
+
+    <!-- Modal Esqueceu a Senha -->
+    <input type="checkbox" id="modal-toggle" style="display: none;">
+    <div class="modal">
+        <div class="modal-conteudo">
+            <label for="modal-toggle" class="fechar">&times;</label>
+            <h2>Esqueceu sua senha?<br>Sem problemas!</h2>
+            <p>Digite seu e-mail abaixo e enviaremos um link<br>para você redefinir sua senha:</p>
+            <input type="email" placeholder="seuemail@exemplo.com" class="input-field" />
+            <button class="modal-button">Enviar</button>
+        </div>
+    </div>
+
+    <script src="./script/login.js"></script>
+    
+</body>
+</html>

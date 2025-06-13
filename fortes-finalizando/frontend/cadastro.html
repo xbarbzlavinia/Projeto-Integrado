@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Usuário</title>
+    <link rel="stylesheet" href="./css/cadastro.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="./img/logoF.png" alt="Logo Fortes">
+        
+    </header>
+
+    <div class="form-box">
+        <a class="voltar" href="./index.html"><img src="./img/setinha.png" alt="Seta para voltar"></a>
+        <div class="titulo">Crie sua Conta</div>
+        <form>
+            <label for="nome">Digite seu nome: </label>
+            <input type="text" id="nome" name="nome">
+
+            <label for="email">Digite seu email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="senha">Crie sua senha:</label>
+            <input type="password" id="senha" name="senha">
+
+            <p class="radiozinho">Selecione o seu tipo de serviço:</p>
+            <div class="radios">
+                <label class="opcao produtor">
+                    <span class="radio-title">Produtor</span>
+                    <div class="icon produtor-icon">
+                        <!-- SVG para Ícone Produtor (Folha) -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16H8v-2h3c1.65 0 3-1.35 3-3V8h-2v5c0 .55-.45 1-1 1zM16 11h-3V8h3c1.65 0 3 1.35 3 3v2c0 1.65-1.35 3-3 3h-3v-2h3c.55 0 1-.45 1-1V9z"/>
+                        </svg>
+                    </div>
+                    <input type="radio" name="servico" value="produtor">
+                </label>
+                <label class="opcao reciclador">
+                    <span class="radio-title">Reciclador</span>
+                    <div class="icon reciclador-icon">
+                        <!-- SVG para Ícone Reciclador (Símbolo de Reciclagem) -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2.83 14.83L6.17 13 12 7.17l5.83 5.83-2.83 2.83L12 10.83l-2.83 2.83zM12 4.04c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8z"/>
+                        </svg>
+                    </div>
+                    <input type="radio" name="servico" value="reciclador">
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn" disabled>Cadastrar</button>
+        </form>
+    </div>
+
+    <!-- Botão para abrir o modal de sucesso (mantido para compatibilidade, deve ser controlado por JS) -->
+    <!-- <label for="modal-conta-sucesso-toggle" class="btn-abrir-modal-sucesso">Criar Conta</label> -->
+
+    <!-- Checkbox escondido para controlar o modal -->
+    <input type="checkbox" id="modal-conta-sucesso-toggle" class="checkbox-modal-sucesso">
+
+    <!-- Modal de sucesso -->
+    <div class="modal-conta-sucesso">
+        <div class="modal-conta-sucesso-conteudo">
+            <!-- Botão de fechar -->
+            <label for="modal-conta-sucesso-toggle" class="fechar-modal-sucesso">&times;</label>
+            <div class="icone-sucesso-fundo"></div>
+            <h2>Conta criada com<br><strong>sucesso!</strong></h2>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,851 @@
+
+        body {
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #C3FEDC; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; 
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Header e Navegação */
+        .main-header {
+            background-color: #038C7F; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 1rem;
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 0.5rem; 
+            margin-left: 23.5em;
+        }
+
+        .tab-button {
+            padding: 0.5rem 0.75rem;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .tab-button img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 0.2rem;
+            
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #C3FEDC; 
+            color: #C3FEDC;
+        }
+        .tab-button.active img {
+            filter: brightness(0) saturate(100%) invert(86%) sepia(10%) saturate(372%) hue-rotate(82deg) brightness(103%) contrast(96%);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Account Hub (Dropdown do Usuário) */
+        .account-hub {
+            position: relative;
+            margin-left: auto;
+            align-self: flex-start; 
+        }
+
+        .account-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-name-header {
+            color: white;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            display: none; 
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .account-hub-dropdown {
+            position: absolute;
+            top: calc(100% + 10px); 
+            right: 0;
+            background-color: #038C7F;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            width: 250px;
+            z-index: 999;
+            transform-origin: top right;
+            animation: fadeInScale 0.2s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .dropdown-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 0.75rem auto;
+            border: 3px solid #e0f2f7; 
+        }
+
+        .dropdown-username {
+            text-align: center;
+            font-weight: bold;
+            color: #E8FFE0;
+            margin-bottom: 0.25rem;
+        }
+
+        .dropdown-email {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #E8FFE0;
+            margin-bottom: 0.5rem;
+        }
+
+        .dropdown-usertype {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #E8FFE0;
+            margin-bottom: 1.5rem;
+        }
+
+        .logout-button {
+            background-color: #ef4444; 
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logout-button:hover {
+            background-color: #dc2626;
+        }
+
+        /* Conteúdo Principal */
+        .content-container {
+            max-width: 1300px; 
+            margin: 1.5rem auto;
+            padding: 1rem;
+            flex-grow: 1;
+            background-color: #038C7F; 
+            border-radius: 1rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color:#E8FFE0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .section-title + .message-text {
+            margin-top: -1rem; 
+        }
+
+        /* Seção Dashboard - Estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background-color: #038C7F; 
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease-in-out;
+            
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px); 
+        }
+
+        .stat-item h3 {
+            font-weight: 600;
+            color: #E8FFE0; 
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .stat-item p {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #F28F00; 
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item .icon-lixeira {
+            width: 80px;
+            height: 80px;
+            margin-top: 1rem;
+        }
+
+        .stat-item .status-message {
+            font-size: 1rem;
+            color: #E8FFE0; 
+            font-weight: 600;
+        }
+
+        /* Gráficos do Dashboard */
+        .chart-container {
+            width: 100%;
+            height: 250px; 
+            background-color: white; 
+            border-radius: 0.75rem;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1); 
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; 
+            position: relative;
+        }
+        .chart-placeholder {
+            color: #718096;
+            font-style: italic;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+        /* Cards de Lixo (Dashboard e Status) */
+        .collected-lixos-grid,
+        .my-collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .lixo-card {
+            padding: 1.2rem;
+            border-radius: 1rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.3s ease-in-out;
+            color: white; 
+        }
+
+        .lixo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .lixo-card.status-Pendente { background-color: #007bff; }
+        .lixo-card.status-Reciclador-a-caminho { background-color: #ffc107; } 
+        .lixo-card.status-Coletado { background-color: #28a745; }
+        .lixo-card.status-Cancelado { background-color: #dc3545; } 
+
+        .lixo-card h3 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            text-align: center;
+            color: white; 
+        }
+
+        .icon-lixo {
+            width: 90px; 
+            height: 90px;
+            color: white;
+            margin: 0 auto 1rem auto;
+        }
+
+        .lixo-card-details {
+            text-align: center;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .lixo-card-details strong {
+            font-weight: 700;
+        }
+
+        .lixo-card-details p {
+            margin-bottom: 0.3rem;
+        }
+
+        .lixo-card-details .text-muted {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-buttons-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 1rem;
+            gap: 0.6rem;
+        }
+
+        .action-button,
+        .comments-button {
+            background-color: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-weight: 600;
+            padding: 0.6rem 1rem;
+            border-radius: 0.75rem; 
+            width: 100%;
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-button:hover,
+        .comments-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px); 
+        }
+
+        .cancel-button {
+            background-color: #e62e2e; 
+            color: white;
+            border-radius: 50%;
+            width: 32px; 
+            height: 32px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            transition: background-color 0.2s;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .cancel-button:hover {
+            background-color: #c02020;
+        }
+
+        .action-unavailable {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+            padding: 0.5rem 0;
+        }
+
+        /* Formulários e Filtros */
+        .form-layout {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 1.5rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background-color: #038C7F;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+            justify-content: space-between;
+        }
+
+        .pc{
+            margin-left: 12em;
+            
+        }
+
+        .botoesPesquisa{
+            margin-left: 1em;
+        }
+
+        .input-label {
+            display: flex;
+            color: #E8FFE0;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2em;
+            margin-top: 2em;
+            
+        }
+
+        .input-field {
+            width: 40%;
+            padding: 0.75rem;
+            margin-top: -5em;
+            border: 1px solid #c9d6de;
+            background-color: #D9D9D9;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .name_lixo .input-field{
+            width: 89%;
+        }
+
+        .tipo_lixo .input-field{
+            margin-left: 20em;
+            
+        }
+
+        .pontoC .input-field{
+            margin-left: 20em;
+    
+        }
+
+        .tipo_lixo label{
+            margin-bottom: -1em;
+        }
+
+        .pontoC label{
+            margin-bottom: -1em;
+        }
+
+
+
+        .input-field:focus {
+            outline: none;
+            border-color: #038C7F;
+            box-shadow: 0 0 0 3px rgba(3, 140, 127, 0.2); 
+        }
+
+        .full-width-field {
+            grid-column: 1 / -1; 
+        }
+
+        .imageEnviar {
+            text-align: center;
+            margin-top: 1.5rem;
+            grid-column: 1 / -1; 
+        }
+
+        .latas {
+            max-width: 95%;
+            height: auto;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        .latas:hover {
+            transform: scale(1.02);
+        }
+
+        .btn_enviar {
+            text-align: right;
+            margin-top: 1.5rem;
+            width: 10em;
+            margin-left: 44em;
+            
+        }
+
+        .submit-button {
+            background-color: #12166D; 
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            font-size: 1rem;
+        }
+
+        .submit-button:hover {
+            background-color: #02665e;
+            transform: translateY(-2px);
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #038C7F;
+            border-radius: 1rem;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+        }
+
+        /* Mensagens de feedback */
+        .message-text {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 1rem;
+            color: #C3FEDC;
+            font-weight: 500;
+        }
+        .message-text.success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .message-text.error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Modal Base */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .modal-overlay:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1rem; 
+            width: 95%;
+            max-width: 700px; 
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.3s ease-out;
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem; 
+            font-size: 2.5rem; 
+            cursor: pointer;
+            color: #718096; 
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #2d3748;
+        }
+
+        /* Modal de Comentários */
+        .comments-list {
+            max-height: 20rem; 
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background-color: #f7fafc;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.75rem 0;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-author {
+            color: #2d3748;
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+        }
+
+        .comment-date {
+            color: #718096;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .comment-text {
+            color: #4a5568;
+            line-height: 1.4;
+            word-wrap: break-word; 
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #c9d6de;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            resize: vertical; 
+        }
+
+        .comment-submit-button {
+            background-color: #038C7F;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            font-size: 1rem;
+        }
+
+        .comment-submit-button:hover {
+            background-color: #02665e;
+            transform: translateY(-2px);
+        }
+
+        /* Modal de Ajuda */
+        #modal-ajuda {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        #modal-ajuda:target { 
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-ajuda-conteudo {
+            background-color: #038C7F;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.3s ease-out;
+        }
+        .fechar-ajuda {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            text-decoration: none;
+            color: #C3FEDC;
+            transition: color 0.2s;
+        }
+        .fechar-ajuda:hover {
+            color: #fff;
+        }
+        .modal-ajuda-conteudo h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #E8FFE0;
+            text-align: center;
+        }
+        .modal-ajuda-conteudo h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: #E8FFE0;
+            border-bottom: 2px solid #e0f2f7;
+            padding-bottom: 0.5rem;
+        }
+        .modal-ajuda-conteudo h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.75rem;
+            color: #E8FFE0;
+        }
+        .modal-ajuda-conteudo p {
+            margin-bottom: 1rem;
+            color: #E8FFE0;
+            line-height: 1.6;
+        }
+        .modal-ajuda-conteudo ul {
+            list-style: disc;
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+            color: #E8FFE0;
+        }
+        .modal-ajuda-conteudo li {
+            margin-bottom: 0.6rem;
+            line-height: 1.5;
+        }
+        .btn-ajuda {
+            display: inline-block;
+            margin-right: 1rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        .btn-ajuda:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .btn-ajuda img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1); 
+        }
+
+       
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+        .icon-lixeira { 
+            width: 100px;
+            height: 100px;
+            color: #F28F00; 
+        }
+
+        /* Media Queries para Responsividade */
+        @media (min-width: 600px) {
+            .main-header {
+                flex-direction: row;
+            }
+            .main-header-content {
+                width: auto;
+                margin-bottom: 0;
+            }
+            .user-name-header {
+                display: block; 
+            }
+            .form-layout {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .imageEnviar {
+                grid-column: 2 / 3;
+                grid-row: 1 / span 3; 
+                align-self: center; 
+            }
+            .selecoes {
+                grid-column: 1 / 2; 
+                
+            }
+            .btn_enviar {
+                grid-column: 1 / -1; 
+            }
+            .filter-controls {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .content-container {
+                padding: 2rem; 
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr); 
+            }
+            .form-layout {
+                grid-template-columns: 2fr 1fr; 
+            }
+            .imageEnviar {
+                grid-column: 2 / 3;
+                grid-row: 1 / span 3;
+            }
+            .my-collections-grid, .collected-lixos-grid {
+                grid-template-columns: repeat(3, 1fr); 
+            }
+        }
